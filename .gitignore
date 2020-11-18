@@ -4,4 +4,4 @@ dist
 .DS_Store
 .env
 package-lock.json
-webiste/config.js
+website/config.js
