@@ -122,4 +122,4 @@ function performAction() {
 */
 
 // Event listener to add function to existing HTML DOM element
-generate.addEventListener('click', performAction);
+// generate.addEventListener('click', performAction);

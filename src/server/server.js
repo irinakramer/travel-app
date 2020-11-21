@@ -1,6 +1,7 @@
 // Setup empty JS object to act as endpoint for all routes
 projectData = {};
 
+const path = require('path')
 // Require Express to run server and routes
 const express = require('express');
 
@@ -18,7 +19,7 @@ const cors = require('cors');
 app.use(cors());
 
 // Initialize the main project folder
-app.use(express.static('website'));
+app.use(express.static('dist'));
 
 // Spin up the server
 const port = 8000;
@@ -32,7 +33,9 @@ function listening() {
 
 
 // Initialize all route with a callback function
-app.get('/all', getData);
+app.get('/', function (req, res) {
+    res.sendFile('dist/index.html')
+});
 
 // Callback function to complete GET '/all'
 function getData(request, response) {
