@@ -27,19 +27,22 @@ const server = app.listen(port, listening);
 
 // Callback to debug in terminal
 function listening() {
-    console.log('server is running');
-    console.log(`running on localhost: ${port}`);
+    console.log(`server is running on localhost port: ${port}`);
 }
 
 
 // Initialize all route with a callback function
-app.get('/', function (req, res) {
-    res.sendFile('dist/index.html')
-});
+app.get('/all', getData);
+
+
+// app.get('/all', function (req, res) {
+//     res.sendFile('dist/index.html');
+// });
 
 // Callback function to complete GET '/all'
 function getData(request, response) {
     response.send(projectData);
+    console.log(projectData)
 }
 
 // POST Route

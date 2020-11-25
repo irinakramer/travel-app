@@ -21,10 +21,11 @@
 // Create a new date instance dynamically with JS
 let d = new Date();
 let newDate = d.getMonth() + '.' + d.getDate() + '.' + d.getFullYear();
-const generate = document.getElementById('generate');
+//const generate = document.getElementById('generate');
 
 // Personal API Key for OpenWeatherMap API
 const baseURL = 'http://api.openweathermap.org/data/2.5/weather';
+const API_KEY = 'a7b0030ca841d3b538769612e7833ce6';
 
 /**
  * End Global Variables
@@ -54,6 +55,7 @@ const getWeather = async (baseURL, newZip, apiKey) => {
     try {
         // data - var to store what fetch() returns, in json format
         const data = await response.json();
+        console.log("getWeather data: ", data);
         return data;
     } catch (error) {
         console.log('error', error);
@@ -72,6 +74,8 @@ const postWeather = async (url = '', data = {}) => {
     });
     try {
         const newData = await response.json();
+        //const newData = await response.text();
+        console.log("postWeather newData: ", newData);
     } catch (error) {
         console.log('error', error);
     }
@@ -95,6 +99,8 @@ const updateUI = async () => {
     const request = await fetch('/all');
     try {
         const allData = await request.json();
+        //const allData = await request.text();
+        console.log("updateUI allData: ", allData);
         document.getElementById('date').innerHTML = `Date: ${allData.date}`;
         document.getElementById('name').innerHTML = `City: ${allData.name}`;
         document.getElementById('temp').innerHTML = `Temperature: ${tempC(allData.temperature)}°C (${tempF(allData.temperature)}°F)`;
@@ -110,10 +116,13 @@ const updateUI = async () => {
 /* Function called by event listener */
 function performAction() {
     const newZip = document.getElementById('zip').value;
-    getWeather(baseURL, newZip, config.API_KEY)
+    console.log("clicked")
+    getWeather(baseURL, newZip, API_KEY)
         .then(getProjectData)
         .then(updateUI)
 }
+
+export { performAction, getWeather, postWeather, getProjectData, updateUI }
 
 /**
  * End Main Functions
