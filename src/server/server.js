@@ -34,22 +34,23 @@ function listening() {
 // Initialize all route with a callback function
 app.get('/all', getData);
 
-
-// app.get('/all', function (req, res) {
-//     res.sendFile('dist/index.html');
-// });
-
 // Callback function to complete GET '/all'
 function getData(request, response) {
     response.send(projectData);
     console.log(projectData)
 }
 
+// app.get('/all', function (req, res) {
+//     res.sendFile('dist/index.html');
+// });
+
+
 // POST Route
 app.post('/add', postData);
 
 function postData(request, response) {
     projectData = request.body;
+    console.log("projectData: ", projectData);
     response.send({ message: 'data sent' });
 }
 

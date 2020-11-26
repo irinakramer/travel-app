@@ -13,5 +13,9 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 export {
-    performAction
+    performAction,
+    getWeather,
+    postWeather,
+    getProjectData,
+    updateUI
 }

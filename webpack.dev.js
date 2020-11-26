@@ -1,4 +1,4 @@
-const path = require("path")
+const path = require('path')
 const webpack = require("webpack")
 const HtmlWebPackPlugin = require("html-webpack-plugin")
 const { CleanWebpackPlugin } = require("clean-webpack-plugin")
@@ -7,10 +7,13 @@ module.exports = {
     mode: 'development',
     devtool: 'source-map',
     output: {
-        path: path.join(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'dist'),
         filename: 'bundle.min.js',
         libraryTarget: 'var',
         library: 'Client'
+    },
+    devServer: {
+        port: 8000
     },
     module: {
         rules: [

@@ -76,6 +76,7 @@ const postWeather = async (url = '', data = {}) => {
         const newData = await response.json();
         //const newData = await response.text();
         console.log("postWeather newData: ", newData);
+        return newData;
     } catch (error) {
         console.log('error', error);
     }
@@ -116,7 +117,7 @@ const updateUI = async () => {
 /* Function called by event listener */
 function performAction() {
     const newZip = document.getElementById('zip').value;
-    console.log("clicked")
+    console.log("button clicked")
     getWeather(baseURL, newZip, API_KEY)
         .then(getProjectData)
         .then(updateUI)
