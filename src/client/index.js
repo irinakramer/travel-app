@@ -1,21 +1,16 @@
-import { performAction, getWeather, postWeather, getProjectData, updateUI } from './js/app'
+import { checkForUrl } from './js/urlChecker'
+import { handleSubmit } from './js/formHandler'
 
-import './styles/style.scss'
-
-console.log("./src/client/index.js is running");
-
-const generate = document.getElementById('generate');
-// Event listener to add function to existing HTML DOM element
-//generate.addEventListener('click', Client.performAction);
-
-document.addEventListener("DOMContentLoaded", () => {
-    generate.addEventListener('click', performAction);
-});
+import './styles/resets.scss'
+import './styles/base.scss'
+import './styles/footer.scss'
+import './styles/form.scss'
+import './styles/header.scss'
+import './styles/message.scss'
+import './images/logo.png'
+import './images/evaluate-news-screenshot.png'
 
 export {
-    performAction,
-    getWeather,
-    postWeather,
-    getProjectData,
-    updateUI
+    checkForUrl,
+    handleSubmit
 }
