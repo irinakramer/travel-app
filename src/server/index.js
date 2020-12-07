@@ -1,53 +1,44 @@
-const dotenv = require('dotenv');
-dotenv.config();
-const API_KEY = process.env.API_KEY;
-
-const path = require('path')
-const express = require('express')
-const mockAPIResponse = require('./mockAPI.js')
+var path = require('path');
+const express = require('express');
 const bodyParser = require('body-parser');
-const cors = require('cors');
-const fetch = require('node-fetch');
-
-
 const app = express();
 
+// Endpoint for all routes
+let projectData = {};
+
+// BodyParser config
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+// Cors for cross origin allowance
+const cors = require('cors');
 app.use(cors());
 app.use(express.static('dist'));
 
-
-// Middleware
-// Parse incoming request bodies in a middleware before your handlers, through req.body property.
-app.use(bodyParser.text());
-
-const baseURL = 'https://api.meaningcloud.com/sentiment-2.1';
-const port = 8001;
-
-console.log(__dirname);
-
+//Get route
 app.get('/', function (req, res) {
     res.sendFile('dist/index.html')
-});
+})
 
-// designates what port the app will listen to for incoming requests
-app.listen(process.env.PORT || port, function () {
-    console.log(`Example app listening on port ${port}!`)
-});
+// Post Route
+app.post('/add', addInfo);
 
-// test api
-app.get('/test', function (req, res) {
-    res.send(mockAPIResponse)
-});
+function addInfo(req, res) {
+    projectData['depCity'] = req.body.depCity;
+    projectData['arrCity'] = req.body.arrCity;
+    projectData['depDate'] = req.body.depDate;
+    projectData['weatherHigh'] = req.body.weatherHigh;
+    projectData['weatherLow'] = req.body.weatherLow;
+    projectData['summary'] = req.body.summary;
+    projectData['daysLeft'] = req.body.daysLeft;
+    res.send(projectData);
+}
 
-// POST method
-app.post('/article', async (req, res) => {
-    const response = await fetch(`${baseURL}?key=${API_KEY}&lang=auto&url=${req.body}`);
-    console.log('response url:', response);
-    try {
-        const data = await response.json();
-        res.send(data);
-    } catch (error) {
-        console.log("error", error);
-    }
-});
+// Setup Server
 
+const port = 8001;
+const server = app.listen(port, listening);
+
+function listening() {
+    console.log(`running on localhost: ${port}`);
+};
