@@ -12,12 +12,10 @@ const depDate = document.querySelector('input[name="date"]');
 const geoNamesURL = 'http://api.geonames.org/searchJSON?q=';
 const username = "irinak";
 const timestampNow = (Date.now()) / 1000;
-const darkAPIURL = "https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/";
-const darkAPIkey = "841a9888f38f0d5458c1f32b892d2d1b";
 const pixabayAPIURL = "https://pixabay.com/api/?key=";
 const pixabayAPIkey = "19370944-bb3a207b7ef005511416f7836";
 const weatherbitAPIKEY = "7863790f3e20471bb6d8e7c6a3a64976";
-const weatherbitURL = "https://api.weatherbit.io/v2.0/forecast/daily?";
+const weatherbitURL = "https://api.weatherbit.io/v2.0/";
 
 // EVENT LISTENERS
 
@@ -60,8 +58,8 @@ export function addTrip(e) {
     const leavingFromText = leavingFrom.value;
     const goingToText = goingTo.value;
     const depDateText = depDate.value;
-    const timestamp = (new Date(depDateText).getTime()) / 1000;
-    const countdown = Math.round((timestamp - timestampNow) / 86400);
+    console.log(depDateText);
+    const countdown = Countdown(depDate);
     console.log("countdown: ", countdown);
 
     // function checkInput to validate input 
@@ -74,20 +72,19 @@ export function addTrip(e) {
             const country = cityData.geonames[0].countryName;
             const weatherData = getWeather(cityLat, cityLong, depDate);
             //const weatherData = getWeather(cityLat, cityLong, country, timestamp)
-
             return weatherData;
         })
         .then((weatherData) => {
             const countdown = Countdown(depDate);
             const daysLeft = countdown;
-            console.log("addTrip weatherData.data[countdown].max_temp: ", weatherData.data[countdown].max_temp);
-            // const userData = postData('http://localhost:8001/add', {
-            //     leavingFromText, goingToText, depDateText, daysLeft
-            // });
+            console.log("addTrip weatherData.max_temp: ", weatherData.max_temp);
             const userData = postData('http://localhost:8001/add', {
-                leavingFromText, goingToText, depDateText, weatherHigh: weatherData.data[countdown].max_temp, weatherLow: weatherData.data[countdown].min_temp, daysLeft
+                leavingFromText, goingToText, depDateText, weatherHigh: weatherData.max_temp, weatherLow: weatherData.min_temp, summary: countdown < 16 ? weatherData.weather.description : null, daysLeft
             });
-            // depDateText, weather: weatherData.currently.temperature, summary: weatherData.currently.summary, summary: weatherData.weather.description, daysLeft });
+            // console.log("addTrip weatherData.data[countdown].max_temp: ", weatherData.data[countdown].max_temp);
+            // const userData = postData('http://localhost:8001/add', {
+            //     leavingFromText, goingToText, depDateText, weatherHigh: weatherData.data[countdown].max_temp, weatherLow: weatherData.data[countdown].min_temp, daysLeft
+            // });
 
             return userData;
         }).then((userData) => {
@@ -113,24 +110,33 @@ export const getCityInfo = async (geoNamesURL, goingToText, username) => {
 // function getWeather to get weather information from Dark Sky API 
 
 export const getWeather = async (cityLat, cityLong, depDate) => {
-    const req = await fetch(`${weatherbitURL}lat=${cityLat}&lon=${cityLong}&key=${weatherbitAPIKEY}`);
-    const countdown = Countdown(depDate);
-    // let weatherData = {
-    //     tempHigh: '',
-    //     tempLow: ''
-    // };
-    // const req = await fetch(darkAPIURL + "/" + darkAPIkey + "/" + cityLat + "," + cityLong + "," + timestamp + "?exclude=minutely,hourly,daily,flags");
-    try {
-        const weatherData = await req.json();
-        //console.log("weatherbit weatherData: ", weatherData);
-        //console.log("weatherbit weatherData.data[countdown]: ", weatherData.data[countdown]);
-        // weatherData.tempHigh = weather.data[countdown].high_temp;
-        // weatherData.tempLow = weather.data[countdown].low_temp;
-        //const weatherData = weather.data[countdown];
-        return weatherData;
-    } catch (error) {
-        console.log("error", error);
+
+    let countdown = Countdown(depDate);
+    if (countdown < 16) {
+        const req = await fetch(`${weatherbitURL}forecast/daily?lat=${cityLat}&lon=${cityLong}&key=${weatherbitAPIKEY}`);
+        try {
+            const weatherData = await req.json();
+            console.log("getWeather: ", weatherData);
+            return weatherData.data[countdown];
+        } catch (error) {
+            console.log("error", error);
+        }
+    } else {
+        console.log("for travel more than 16 days, show climate normals, countdown 0");
+        let depMonthDay = depDate.value.substring(5);
+        console.log(depMonthDay);
+        let countdown = 0;
+        const req = await fetch(`${weatherbitURL}normals?lat=${cityLat}&lon=${cityLong}&start_day=${depMonthDay}&end_day=${depMonthDay}&tp=daily&key=${weatherbitAPIKEY}`);
+
+        try {
+            const weatherData = await req.json();
+            console.log("getWeather: ", weatherData);
+            return weatherData.data[countdown];
+        } catch (error) {
+            console.log("error", error);
+        }
     }
+
 }
 
 // Function postData to POST data to our local server
@@ -165,6 +171,7 @@ export const postData = async (url = '', data = {}) => {
 export const updateUI = async (userData) => {
     result.classList.remove("invisible");
     result.scrollIntoView({ behavior: "smooth" });
+    let countdown = Countdown(depDate);
 
     const res = await fetch(pixabayAPIURL + pixabayAPIkey + "&q=" + userData.arrCity + "+city&image_type=photo");
 
@@ -177,6 +184,7 @@ export const updateUI = async (userData) => {
         document.querySelector("#summary").innerHTML = userData.summary;
         document.querySelector("#temp-high").innerHTML = userData.weatherHigh;
         document.querySelector("#temp-low").innerHTML = userData.weatherLow;
+        document.querySelector("#weather-text").innerHTML = countdown < 16 ? "Expect weather to be" : "Typical weather for then";
         document.querySelector("#fromPixabay").setAttribute('src', imageLink.hits[0].webformatURL);
     }
     catch (error) {
