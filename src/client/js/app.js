@@ -17,26 +17,31 @@ const pixabayAPIkey = "19370944-bb3a207b7ef005511416f7836";
 const weatherbitAPIKEY = "7863790f3e20471bb6d8e7c6a3a64976";
 const weatherbitURL = "https://api.weatherbit.io/v2.0/";
 
+
 // EVENT LISTENERS
 
 // add trip button
 const addTripEvList = addTripButton.addEventListener('click', function (e) {
     e.preventDefault();
     planner.scrollIntoView({ behavior: 'smooth' });
-})
+});
+
 // form submit
 form.addEventListener('submit', addTrip);
+
 // print button
 printButton.addEventListener('click', function (e) {
     window.print();
     location.reload();
 });
+
 // delete button
 deleteButton.addEventListener('click', function (e) {
     form.reset();
-    result.classList.add("invisible");
+    result.classList.add("hidden");
     location.reload();
-})
+});
+
 
 // FUNCTIONS 
 
@@ -71,21 +76,14 @@ export function addTrip(e) {
             const cityLong = cityData.geonames[0].lng;
             const country = cityData.geonames[0].countryName;
             const weatherData = getWeather(cityLat, cityLong, depDate);
-            //const weatherData = getWeather(cityLat, cityLong, country, timestamp)
             return weatherData;
         })
         .then((weatherData) => {
             const countdown = Countdown(depDate);
-            const daysLeft = countdown;
             console.log("addTrip weatherData.max_temp: ", weatherData.max_temp);
             const userData = postData('http://localhost:8001/add', {
-                leavingFromText, goingToText, depDateText, weatherHigh: weatherData.max_temp, weatherLow: weatherData.min_temp, summary: countdown < 16 ? weatherData.weather.description : null, daysLeft
+                leavingFromText, goingToText, depDateText, weatherHigh: weatherData.max_temp, weatherLow: weatherData.min_temp, summary: countdown < 16 ? weatherData.weather.description : null
             });
-            // console.log("addTrip weatherData.data[countdown].max_temp: ", weatherData.data[countdown].max_temp);
-            // const userData = postData('http://localhost:8001/add', {
-            //     leavingFromText, goingToText, depDateText, weatherHigh: weatherData.data[countdown].max_temp, weatherLow: weatherData.data[countdown].min_temp, daysLeft
-            // });
-
             return userData;
         }).then((userData) => {
             updateUI(userData);
@@ -153,8 +151,7 @@ export const postData = async (url = '', data = {}) => {
             depDate: data.depDateText,
             weatherHigh: data.weatherHigh,
             weatherLow: data.weatherLow,
-            summary: data.summary,
-            daysLeft: data.daysLeft
+            summary: data.summary
         })
     })
     try {
@@ -169,23 +166,24 @@ export const postData = async (url = '', data = {}) => {
 // Function update UI that reveals the results page with updated trip information including fetched image of the destination
 
 export const updateUI = async (userData) => {
-    result.classList.remove("invisible");
+    result.classList.remove("hidden");
     result.scrollIntoView({ behavior: "smooth" });
-    let countdown = Countdown(depDate);
+    const countdown = Countdown(depDate);
+    const dateFormat = new Date(depDate.value).toDateString();
 
     const res = await fetch(pixabayAPIURL + pixabayAPIkey + "&q=" + userData.arrCity + "+city&image_type=photo");
 
     try {
         const imageLink = await res.json();
-        const dateSplit = userData.depDate.split("-").reverse().join(" / ");
         document.querySelector("#city").innerHTML = userData.arrCity;
-        document.querySelector("#date").innerHTML = dateSplit;
-        document.querySelector("#days").innerHTML = userData.daysLeft;
+        document.querySelector("#date").innerHTML = dateFormat;
+        document.querySelector("#days").innerHTML = countdown;
         document.querySelector("#summary").innerHTML = userData.summary;
         document.querySelector("#temp-high").innerHTML = userData.weatherHigh;
         document.querySelector("#temp-low").innerHTML = userData.weatherLow;
         document.querySelector("#weather-text").innerHTML = countdown < 16 ? "Expect weather to be" : "Typical weather for then";
         document.querySelector("#fromPixabay").setAttribute('src', imageLink.hits[0].webformatURL);
+
     }
     catch (error) {
         console.log("error", error);
