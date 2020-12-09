@@ -1,0 +1,162 @@
+body {
+  background-color: #e7feff;
+  color: $color-dark;
+}
+section {
+  width: 100%;
+  margin: 50px auto;
+  @media screen and (max-width: $phone) {
+    margin: 20px auto;
+  }
+}
+
+.container {
+  align-items: center;
+  border-radius: 2rem;
+  box-shadow: 1rem 1rem 2rem rgba(0,0,0,.1);
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 2rem;
+  width: 80vw;
+  max-width: 800px;
+  @media screen and (max-width: $phone) {
+    padding: 1.5rem;
+    width: 90vw;
+  }
+}
+
+.intro {
+  &__wrapper {
+    flex-direction: column;
+    background-color: $quinary-color;
+    background-image: linear-gradient(0deg, $tertiary-color 0%, $quaternary-color 100%);
+  }
+  &__content {
+    text-align: center;
+  }
+  &__link {
+    @extend %button;
+  }
+}
+
+
+.planner__form {
+  flex-direction: row;
+  background-color: $tertiary-color;
+  background-image: linear-gradient(0deg, $secondary-color 0%, $tertiary-color 100%);
+  @media screen and (max-width: $phone) {
+    align-items: flex-start;
+  }
+}
+
+
+.form {
+    &__image {
+      img {
+        width: 100%;
+        max-width: 400px;
+        @media screen and (max-width: $phone) {
+          max-width: 100px;
+        }
+      }
+    }
+    &__content {
+      align-content: center;
+      justify-content: center;
+      height: 100%;
+      width: 100%;
+    }
+    &__input {
+      @extend %input;
+    }
+  }
+
+.date__label {
+  font-family: $font-text;
+  font-size: $text-sm;
+  opacity: 0.8;
+  padding: 0.3rem;
+  padding-top: 1rem;
+  text-align: left;
+}
+
+.input__date {
+  @extend %input;
+  &:focus {
+    box-shadow: none;
+  }
+}
+
+.input__submit {
+  @extend %button;
+  width: 100%;
+}
+
+.result {
+  flex-direction: column;
+  background-color: $secondary-color;
+  background-image: linear-gradient(0deg, $quaternary-color 0%, $secondary-color 100%);
+  &__image { 
+    margin-bottom: 1rem;
+    img {
+      margin: 0 auto;
+      width: 100%;
+      border-radius: 5px;
+    }
+  }
+  &__content {
+   ul { 
+    margin-bottom: 1rem;
+    li {
+      font-family: $font-headings;
+      font-size: $text-lg;
+      line-height: 1.6;
+      @media screen and (max-width: $phone) {
+        font-size: $text;
+      }
+    }
+    i {
+      width: 20px;
+      margin-right: 1rem;
+      font-size: $text;
+      opacity: 0.8;
+    }
+  }
+}
+}
+
+.button {
+  @extend %button;
+}
+
+
+
+  /* Header */
+
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 40px;
+    @media screen and (max-width: $phone) {
+      padding: 5px 20px;
+    }
+}
+
+.menu {
+    list-style: none;
+    display: inline-block;
+    li {
+        display: inline;
+    padding: 5px;
+    }
+}
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 1rem;
+    p {
+      font-size: $text-sm;
+    }
+}

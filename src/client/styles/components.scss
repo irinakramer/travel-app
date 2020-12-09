@@ -1,0 +1,39 @@
+
+// Buttons
+%button {
+    display: inline-block;
+    font-family: $font-headings;
+    font-size: $text;
+    background-color: $primary-color;
+    color: $color-light;
+    letter-spacing: 1px;
+    text-decoration: none;
+    text-transform: uppercase;
+    padding: 10px 30px;
+    margin: 5px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    &:hover {
+        color: $color-light;
+        background-color: darken($primary-color, 15%);
+        transition: all 0.3s ease;
+    }
+    &:focus {
+        outline: none;
+     }
+}
+
+// Form inputs
+%input {
+    display: block;
+    width: 100%;
+    border: none;
+    border-radius: 0.4rem;
+    font-size: $text-sm;
+    line-height: 1.5;
+    margin: 0.1rem 0 0.75rem;
+    outline: none;
+    padding: 0.5rem 0.3rem;
+    text-transform: capitalize;
+}

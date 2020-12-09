@@ -2,7 +2,7 @@
 
 const result = document.querySelector("#result");
 const planner = document.querySelector("#planner");
-const addTripButton = document.querySelector(".map__link");
+const addTripButton = document.querySelector(".intro__link");
 const printButton = document.querySelector("#save");
 const deleteButton = document.querySelector("#delete");
 const form = document.querySelector("#form");

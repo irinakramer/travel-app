@@ -35,19 +35,17 @@
 
     <main class="main">
 
-        <!-- Section About -->
+        <!-- Section Intro -->
 
-        <section id="about" class="section section__about">
-            <div class="map__wrapper">
-                <div class="about__map">
-                    <h1 class="map__heading">Travel App</h1>
-                    <h3 class="map__title">Your ultimate travel planner</h3>
-                    <p class="map__text">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempora ad quod
-                        consequatur
-                        dignissimos quisquam, in doloribus accusantium reiciendis voluptatum alias rem incidunt! Porro
-                        ad aperiam,
-                        iste distinctio repellat debitis alias.</p>
-                    <a href="#" class="map__link">+ add your trip</a>
+        <section id="intro" class="section section__intro">
+            <div class="container intro__wrapper">
+                <div class="intro__content">
+                    <h1 class="intro__heading">Travel Planner</h1>
+                    <h4 class="intro__title">Get your trip together</h4>
+                    <p class="intro__text">When you're ready to travel, use this simple resource to plan your trip, be
+                        it overseas or domestic. You can enter your destination city and travel dates and will see a
+                        beautiful photo and the weather forecast for your trip. Onwards!</p>
+                    <a href="#" class="intro__link">+ add trip</a>
                 </div>
             </div>
         </section>
@@ -57,15 +55,15 @@
         <section id="planner" class="section section__planner">
             <div class="container planner__form">
                 <div class="form__image section__image">
-                    <!-- <img src="" alt="planet Earth icon"> -->
+                    <img src="../images/travel-globe.png" alt="World Travel image">
                 </div>
                 <form class="form__content" id="form">
                     <h2 class="form__heading">Plan your trip</h2>
-                    <input type="text" class="form__input input__from" name="from" placeholder="leaving from..."
-                        autocomplete="off" required>
-                    <input type="text" class="form__input input__to" name="to" placeholder="going to..."
-                        autocomplete="off" required>
-                    <label class="date__label" for="date">departing on...</label>
+                    <input type="text" class="form__input" name="from" placeholder="leaving from..." autocomplete="off"
+                        required>
+                    <input type="text" class="form__input" name="to" placeholder="going to..." autocomplete="off"
+                        required>
+                    <label class="date__label" for="date">Departing on...</label>
                     <input type="date" class="form__input input__date" name="date" required>
                     <input type="submit" class="input__submit" name="submit" value="Submit">
                 </form>
@@ -75,24 +73,19 @@
         <!-- Section Result -->
 
         <section id="result" class="section section__result invisible">
-            <div class="container results">
+            <div class="container result">
                 <div class="result__image">
-                    <img src="../images/planet-earth.png" alt="destination image" id="fromPixabay">
+                    <img src="../images/travel-sights.jpg" alt="destination image" id="fromPixabay">
                 </div>
                 <div class="result__content">
-
-                    <i class="city__icon icon__result fas fa-map-pin"></i>
-                    <h2 class="city__name text__result">You are going to: <span id="city"></span></h2>
-                    <i class="date__icon icon__result fas fa-calendar-day"></i>
-                    <h2 class="date__name text__result">Departing on: <span id="date">DD/MM/YYYY</span></h2>
-
-                    <i class="days__icon icon__result fas fa-suitcase-rolling"></i>
-                    <h2 class="days__name text__result">This is <span id="days"> NUM </span> days away</h2>
-
-                    <i class="weather__icon icon__result fas fa-cloud-sun-rain"></i>
-                    <h2 class="weather__name text__result"><span id="weather-text"></span>: High
-                        <span id="temp-high">100</span> &#176;C, Low <span id="temp-low">0</span> &#176;C
-                        <span id="summary"></span>.</h2>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i>My trip to: <span id="city"></span></li>
+                        <li><i class="fas fa-calendar-day"></i>Departing on: <span id="date">DD/MM/YYYY</span></li>
+                        <li><i class="fas fa-suitcase-rolling"></i>This is <span id="days"> NUM </span> days away</li>
+                        <li><i class="fas fa-cloud-sun-rain"></i><span id="weather-text">Weather</span>: High
+                            <span id="temp-high">100</span> &#176;C, Low <span id="temp-low">0</span> &#176;C
+                            <span id="summary"></span>.</li>
+                    </ul>
 
                     <a class="button button__save" id="save" href="#">Print</a>
                     <a class="button button__delete" id="delete" href="#">Delete</a>
@@ -106,8 +99,6 @@
 
         <p>Project by <a href="http://www.irinakramer.com" target="_blank">Irina Kramer</a></p>
         <p>Udacity Front End Web Developer nanodegree</p>
-        <p>Powered by <a href="https://www.meaningcloud.com/developer/sentiment-analysis/doc">Meaning Cloud Sentiment
-                Analysis API</a></p>
     </footer>
     <!-- <script>
         // Check that service workers are supported

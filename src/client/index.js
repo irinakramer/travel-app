@@ -2,14 +2,10 @@ import { addTrip } from "./js/app.js"
 import { checkInput } from "./js/inputCheck.js"
 import { addTripEvList } from "./js/app.js"
 
-import './styles/resets.scss'
-import './styles/base.scss'
-import './styles/footer.scss'
-import './styles/form.scss'
-import './styles/header.scss'
-import './styles/message.scss'
+import './styles/main.scss'
 import './images/logo.png'
-import './images/planet-earth.png'
+import './images/travel-globe.png'
+import './images/travel-sights.jpg'
 
 export { addTrip }
 export { checkInput }
