@@ -19,7 +19,7 @@ This project demostrates usage of:
 ## Prerequisite
 This project should run on a local server. Node and Express should be installed on the local machine. Required packages listed in `packages.json`.
 	
-Create API credentials on [Geonamens](http://www.geonames.org/), [Weatherbit]](https://www.weatherbit.io/) and [Pixabay](https://pixabay.com/) then insert keys into the app.js Variables section:
+Create API credentials on [Geonamens](http://www.geonames.org/), [Weatherbit](https://www.weatherbit.io/) and [Pixabay](https://pixabay.com/) then insert keys into the app.js Variables section:
 
 ```
 geoNamesUsername = "your_username";
@@ -53,3 +53,6 @@ To use the app, enter a departure and destination city (required) in the input f
 
 ## Author
 Code is created by Irina Kramer.
+
+
+[screenshot]: https://github.com/irinakramer/travel-app/blob/master/travel-app-screenshot.png "Travel Planner Screenshot"
