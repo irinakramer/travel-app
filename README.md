@@ -53,7 +53,3 @@ To use the app, enter a departure and destination city (required) in the input f
 
 ## Author
 Code is created by Irina Kramer.
-
-Screenshot: 
-![alt text][screenshot]
-[screenshot]: https://raw.githubusercontent.com/irinakramer/travel-app/master/travel-app-screenshot.png "Travel Planner Screenshot"
