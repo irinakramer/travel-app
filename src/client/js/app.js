@@ -134,7 +134,6 @@ export const getWeather = async (cityLat, cityLong, depDate) => {
             console.log("error", error);
         }
     }
-
 }
 
 // Function postData to POST data to our local server
@@ -183,7 +182,6 @@ export const updateUI = async (userData) => {
         document.querySelector("#temp-low").innerHTML = userData.weatherLow;
         document.querySelector("#weather-text").innerHTML = countdown < 16 ? "Expect weather to be" : "Typical weather for then";
         document.querySelector("#fromPixabay").setAttribute('src', imageLink.hits[0].webformatURL);
-
     }
     catch (error) {
         console.log("error", error);
