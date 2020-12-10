@@ -1,34 +1,55 @@
-# Weather-Journal App Project
-Project 3 from the Udacity Front End Nanodegree program. 
+# Travel App Project
+Project 5 capstone from the Udacity Front End Nanodegree program. 
 
 
 ## Description
-This project is an asynchronous web app that uses Web API and user data to dynamically update the UI. 
+This project is a web app that takes user destination city and departure date to return weather forecast for that date. There are three APIs used: Geonames API, Weatherbit API and Pixabay API. 
+
+This project demostrates usage of:
+- Setting up Webpack
+- Webpack Loaders and Plugins
+- NPM
+- Express server
+- Service workers
+- Creating layout and page design
+- Sass styles
+- Using APIs and creating requests to external urls
 
 
 ## Prerequisite
-This project should run on a local server. Node and Express should be installed on the local machine. Required packages: `express()`, `cors()`, `body-parser`.
+This project should run on a local server. Node and Express should be installed on the local machine. Required packages listed in `packages.json`.
 	
-Create API credentials on OpenWeatherMap.com, then insert API KEY into the `config.js` file and put it into the /website folder.
+Create API credentials on [Geonamens](http://www.geonames.org/), [Weatherbit]](https://www.weatherbit.io/) and [Pixabay](https://pixabay.com/) then insert keys into the app.js Variables section:
 
 ```
-const config = { API_KEY: '12345xyz...' };
+geoNamesUsername = "your_username";
+weatherbitAPIKEY = "12345...";
+pixabayAPIkey = "6789...";
 ```
 
 
 ## Installation
-Ensure Node, Express, Cors and Body parser packages are installed. Download files from this repo and navigate to the project folder on your local. Afterwards, to start the server run this command in command line:
+Ensure Node, Express, Cors, Body parser, Webpack and all required packages are installed.
 
 ```bash
-node server.js
+npm install
 ```
 
-Navigate to http://localhost:8000/ in your browser.
+Set up webpack config files for development and production environments.  Download files from this repo and navigate to the project folder. Afterwards, to start the server run these commands in command line:
+
+```bash
+npm run build-dev
+npm run build-prod
+npm run start
+```
+
+Navigate to http://localhost:8001/ in your browser.
 
 
 ## Usage
-To use the app, enter a US zip code in the input field (required), then enter your notes into the feelings text area(optional). Press the **Generate** button. Weather results will be displayed in the "Most recent Entry" container. The app is fully responsive.
+
+To use the app, enter a departure and destination city (required) in the input field and press the **Submit** button. City Phone and weather results will be displayed in the box below. If a destination city is invalid, the user will see an error message. The app is fully responsive.
 
 
 ## Author
-Code is created by Irina Kramer, using starter code by Udacity.
+Code is created by Irina Kramer.
