@@ -1,6 +1,8 @@
-const path = require("path")
-const webpack = require("webpack")
-const HtmlWebPackPlugin = require("html-webpack-plugin")
+const path = require("path");
+const webpack = require("webpack");
+const HtmlWebPackPlugin = require("html-webpack-plugin");
+const WorkboxPlugin = require('workbox-webpack-plugin');
+
 module.exports = {
     entry: './src/client/index.js',
     mode: 'production',
@@ -22,7 +24,7 @@ module.exports = {
                 use: ['style-loader', 'css-loader', 'sass-loader']
             },
             {
-                test: /\.png$/,
+                test: /\.(png|jpe?g|gif)$/,
                 use: [{
                     loader: 'file-loader',
                     options: {
@@ -40,6 +42,7 @@ module.exports = {
         new HtmlWebPackPlugin({
             template: "./src/client/views/index.html",
             filename: "./index.html"
-        })
+        }),
+        new WorkboxPlugin.GenerateSW()
     ]
 }
