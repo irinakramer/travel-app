@@ -2,127 +2,94 @@
 
 const result = document.querySelector("#result");
 const planner = document.querySelector("#planner");
-const addTripButton = document.querySelector(".intro__link");
-const printButton = document.querySelector("#save");
-const deleteButton = document.querySelector("#delete");
+const addTripBtn = document.querySelector(".intro__link");
+const printBtn = document.querySelector("#save");
+const deleteBtn = document.querySelector("#delete");
 const form = document.querySelector("#form");
 const leavingFrom = document.querySelector('input[name="from"]');
 const goingTo = document.querySelector('input[name="to"]');
 const depDate = document.querySelector('input[name="date"]');
 const geoNamesURL = 'http://api.geonames.org/searchJSON?q=';
-const username = "irinak";
-const timestampNow = (Date.now()) / 1000;
+const geoNamesUsername = "irinak";
+const timeNow = (Date.now()) / 1000;
 const pixabayAPIURL = "https://pixabay.com/api/?key=";
 const pixabayAPIkey = "19370944-bb3a207b7ef005511416f7836";
 const weatherbitAPIKEY = "7863790f3e20471bb6d8e7c6a3a64976";
 const weatherbitURL = "https://api.weatherbit.io/v2.0/";
 
 
-// EVENT LISTENERS
-
-// add trip button
-const addTripEvList = addTripButton.addEventListener('click', function (e) {
-    e.preventDefault();
-    planner.scrollIntoView({ behavior: 'smooth' });
-});
-
-// form submit
-form.addEventListener('submit', addTrip);
-
-// print button
-printButton.addEventListener('click', function (e) {
-    window.print();
-    location.reload();
-});
-
-// delete button
-deleteButton.addEventListener('click', function (e) {
-    form.reset();
-    result.classList.add("hidden");
-    location.reload();
-});
-
-
 // FUNCTIONS 
 
-/**
- * Countdown
- * @param {*} e 
- */
-
-export function Countdown(depDate) {
+// Function countDown to get number of days before the trip
+export function countDown(depDate) {
     const depDateVal = depDate.value;
-    const timestamp = (new Date(depDateVal).getTime()) / 1000;
-    return Math.round((timestamp - timestampNow) / 86400);
+    const timeLeave = (new Date(depDateVal).getTime()) / 1000;
+    return Math.round((timeLeave - timeNow) / 86400);
 }
 
-// Function called when form is submitted
+// Function addTrip, called when form is submitted
 export function addTrip(e) {
     e.preventDefault();
     //Acquiring and storing user trip data
     const leavingFromText = leavingFrom.value;
     const goingToText = goingTo.value;
     const depDateText = depDate.value;
-    console.log(depDateText);
-    const countdown = Countdown(depDate);
-    console.log("countdown: ", countdown);
+    const countdown = countDown(depDate);
 
     // function checkInput to validate input 
     Client.checkInput(leavingFromText, goingToText);
 
-    getCityInfo(geoNamesURL, goingToText, username)
+    getCityInfo(geoNamesURL, goingToText, geoNamesUsername)
         .then((cityData) => {
             const cityLat = cityData.geonames[0].lat;
             const cityLong = cityData.geonames[0].lng;
-            const country = cityData.geonames[0].countryName;
             const weatherData = getWeather(cityLat, cityLong, depDate);
             return weatherData;
         })
         .then((weatherData) => {
-            const countdown = Countdown(depDate);
-            console.log("addTrip weatherData.max_temp: ", weatherData.max_temp);
+            const countdown = countDown(depDate);
+            //console.log("addTrip weatherData.max_temp: ", weatherData.max_temp);
             const userData = postData('http://localhost:8001/add', {
                 leavingFromText, goingToText, depDateText, weatherHigh: weatherData.max_temp, weatherLow: weatherData.min_temp, summary: countdown < 16 ? weatherData.weather.description : null
             });
             return userData;
         }).then((userData) => {
             updateUI(userData);
-            console.log("addTrip userData: ", userData);
         })
 }
 
-//function getCityInfo to get city information from Geonames (latitude, longitude, country)
+//function getCityInfo to get city information from Geonames (latitude, longitude)
 
-export const getCityInfo = async (geoNamesURL, goingToText, username) => {
+export const getCityInfo = async (geoNamesURL, goingToText, geoNamesUsername) => {
     // res equals to the result of fetch function
-    const res = await fetch(geoNamesURL + goingToText + "&maxRows=10&" + "username=" + username);
+    const res = await fetch(geoNamesURL + goingToText + "&maxRows=10&" + "username=" + geoNamesUsername);
     try {
         const cityData = await res.json();
-        console.log("Geonames cityData: ", cityData);
+        if (cityData.totalResultsCount == 0) {
+            alert("No data avaiable. Please check city name.")
+        }
         return cityData;
     } catch (error) {
         console.log("error", error);
     }
 };
 
-// function getWeather to get weather information from Dark Sky API 
+// function getWeather to get weather information from Weatherbit
+// If trip is less than 16 days away, use Daily Forecast API, otherwise use Normals API
 
 export const getWeather = async (cityLat, cityLong, depDate) => {
 
-    let countdown = Countdown(depDate);
+    let countdown = countDown(depDate);
     if (countdown < 16) {
         const req = await fetch(`${weatherbitURL}forecast/daily?lat=${cityLat}&lon=${cityLong}&key=${weatherbitAPIKEY}`);
         try {
             const weatherData = await req.json();
-            console.log("getWeather: ", weatherData);
             return weatherData.data[countdown];
         } catch (error) {
             console.log("error", error);
         }
     } else {
-        console.log("for travel more than 16 days, show climate normals, countdown 0");
         let depMonthDay = depDate.value.substring(5);
-        console.log(depMonthDay);
         let countdown = 0;
         const req = await fetch(`${weatherbitURL}normals?lat=${cityLat}&lon=${cityLong}&start_day=${depMonthDay}&end_day=${depMonthDay}&tp=daily&key=${weatherbitAPIKEY}`);
 
@@ -136,7 +103,7 @@ export const getWeather = async (cityLat, cityLong, depDate) => {
     }
 }
 
-// Function postData to POST data to our local server
+// Function postData to POST data to local server
 export const postData = async (url = '', data = {}) => {
     const req = await fetch(url, {
         method: "POST",
@@ -155,19 +122,19 @@ export const postData = async (url = '', data = {}) => {
     })
     try {
         const userData = await req.json();
-        console.log("userData: ", userData);
+        //console.log("userData: ", userData);
         return userData;
     } catch (error) {
         console.log("error", error);
     }
 }
 
-// Function update UI that reveals the results page with updated trip information including fetched image of the destination
+// Function updateUI that reveals the results container with updated trip information including fetched image of the destination. 
 
 export const updateUI = async (userData) => {
     result.classList.remove("hidden");
     result.scrollIntoView({ behavior: "smooth" });
-    const countdown = Countdown(depDate);
+    const countdown = countDown(depDate);
     const dateFormat = new Date(depDate.value).toDateString();
 
     const res = await fetch(pixabayAPIURL + pixabayAPIkey + "&q=" + userData.arrCity + "+city&image_type=photo");
@@ -188,4 +155,31 @@ export const updateUI = async (userData) => {
     }
 }
 
-export { addTripEvList }
+
+
+// EVENT LISTENERS
+
+// add trip button
+const addTripEventListener = addTripBtn.addEventListener('click', function (e) {
+    e.preventDefault();
+    planner.scrollIntoView({ behavior: 'smooth' });
+});
+
+// form submit, callback addTrip function
+form.addEventListener('submit', addTrip);
+
+// print button
+printBtn.addEventListener('click', function (e) {
+    window.print();
+    location.reload();
+});
+
+// delete button
+deleteBtn.addEventListener('click', function (e) {
+    form.reset();
+    result.classList.add("hidden");
+    location.reload();
+});
+
+
+export { addTripEventListener }

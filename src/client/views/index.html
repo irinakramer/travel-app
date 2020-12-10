@@ -83,8 +83,8 @@
                         <li><i class="fas fa-calendar-day"></i>Departing on: <span id="date">DD/MM/YYYY</span></li>
                         <li><i class="fas fa-suitcase-rolling"></i>This is <span id="days"> NUM </span> days away</li>
                         <li><i class="fas fa-cloud-sun-rain"></i><span id="weather-text">Weather</span>: High
-                            <span id="temp-high">100</span> &#176;C, Low <span id="temp-low">0</span> &#176;C
-                            <span id="summary"></span>.</li>
+                            <span id="temp-high">100</span> &#176;C, Low <span id="temp-low">0</span> &#176;C<span
+                                id="summary"></span>.</li>
                     </ul>
 
                     <a class="button button__save" id="save" href="#">Print</a>
@@ -101,9 +101,7 @@
         <p>Udacity Front End Web Developer nanodegree</p>
     </footer>
     <script>
-        // Check that service workers are supported
         if ('serviceWorker' in navigator) {
-            // Use the window load event to keep the page load performant
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/service-worker.js');
             });
