@@ -11,11 +11,11 @@ const goingTo = document.querySelector('input[name="to"]');
 const depDate = document.querySelector('input[name="date"]');
 const geoNamesURL = 'http://api.geonames.org/searchJSON?q=';
 const geoNamesUsername = "irinak";
-const timeNow = (Date.now()) / 1000;
 const pixabayAPIURL = "https://pixabay.com/api/?key=";
 const pixabayAPIkey = "19370944-bb3a207b7ef005511416f7836";
 const weatherbitAPIKEY = "7863790f3e20471bb6d8e7c6a3a64976";
 const weatherbitURL = "https://api.weatherbit.io/v2.0/";
+datePickerId.min = new Date().toISOString().split('T')[0];
 
 
 // FUNCTIONS 
@@ -23,8 +23,10 @@ const weatherbitURL = "https://api.weatherbit.io/v2.0/";
 // Function countDown to get number of days before the trip
 export function countDown(depDate) {
     const depDateVal = depDate.value;
-    const timeLeave = (new Date(depDateVal).getTime()) / 1000;
-    return Math.round((timeLeave - timeNow) / 86400);
+    const timeToday = Date.now();
+    const timeDepDate = (new Date(depDateVal).getTime());
+    const countdown = (timeDepDate - timeToday) / (60 * 60 * 24 * 1000);
+    return Math.ceil(countdown);
 }
 
 // Function addTrip, called when form is submitted
@@ -35,9 +37,12 @@ export function addTrip(e) {
     const goingToText = goingTo.value;
     const depDateText = depDate.value;
     const countdown = countDown(depDate);
+    console.log(countdown);
 
     // function checkInput to validate input 
     Client.checkInput(leavingFromText, goingToText);
+    //Client.checkDate(depDate);
+
 
     getCityInfo(geoNamesURL, goingToText, geoNamesUsername)
         .then((cityData) => {
@@ -122,7 +127,7 @@ export const postData = async (url = '', data = {}) => {
     })
     try {
         const userData = await req.json();
-        //console.log("userData: ", userData);
+        console.log("userData: ", userData);
         return userData;
     } catch (error) {
         console.log("error", error);
@@ -135,7 +140,7 @@ export const updateUI = async (userData) => {
     result.classList.remove("hidden");
     result.scrollIntoView({ behavior: "smooth" });
     const countdown = countDown(depDate);
-    const dateFormat = new Date(depDate.value).toDateString();
+    const dateFormat = (new Date(depDate.value)).toUTCString().split('00:00:00')[0];
 
     const res = await fetch(pixabayAPIURL + pixabayAPIkey + "&q=" + userData.arrCity + "+city&image_type=photo");
 

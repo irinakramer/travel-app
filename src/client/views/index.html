@@ -64,7 +64,7 @@
                     <input type="text" class="form__input" name="to" placeholder="going to..." autocomplete="off"
                         required>
                     <label class="date__label" for="date">Departing on...</label>
-                    <input type="date" class="form__input input__date" name="date" required>
+                    <input type="date" id="datePickerId" class="form__input input__date" name="date" required>
                     <input type="submit" class="input__submit" name="submit" value="Submit">
                 </form>
             </div>
@@ -100,13 +100,13 @@
         <p>Project by <a href="http://www.irinakramer.com" target="_blank">Irina Kramer</a></p>
         <p>Udacity Front End Web Developer nanodegree</p>
     </footer>
-    <script>
+    <!-- <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/service-worker.js');
             });
         }
-    </script>
+    </script> -->
 </body>
 
 </html>
