@@ -15,10 +15,19 @@ const pixabayAPIURL = "https://pixabay.com/api/?key=";
 const pixabayAPIkey = "19370944-bb3a207b7ef005511416f7836";
 const weatherbitAPIKEY = "7863790f3e20471bb6d8e7c6a3a64976";
 const weatherbitURL = "https://api.weatherbit.io/v2.0/";
-datePickerId.min = new Date().toISOString().split('T')[0];
 
 
 // FUNCTIONS 
+
+// Function addDays (source: stackoverlow)
+Date.prototype.addDays = function (days) {
+    var date = new Date(this.valueOf());
+    date.setDate(date.getDate() + days);
+    return date;
+}
+
+datePickerId.min = new Date().toISOString().split('T')[0];
+datePickerId.max = new Date().addDays(15).toISOString().split('T')[0];
 
 // Function countDown to get number of days before the trip
 export function countDown(depDate) {
