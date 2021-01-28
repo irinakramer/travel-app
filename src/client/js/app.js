@@ -9,7 +9,7 @@ const form = document.querySelector("#form");
 const leavingFrom = document.querySelector('input[name="from"]');
 const goingTo = document.querySelector('input[name="to"]');
 const depDate = document.querySelector('input[name="date"]');
-const geoNamesURL = 'http://api.geonames.org/searchJSON?q=';
+const geoNamesURL = '//api.geonames.org/searchJSON?q=';
 const geoNamesUsername = "irinak";
 const pixabayAPIURL = "https://pixabay.com/api/?key=";
 const pixabayAPIkey = "19370944-bb3a207b7ef005511416f7836";
