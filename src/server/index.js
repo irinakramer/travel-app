@@ -36,7 +36,7 @@ function addInfo(req, res) {
 // Setup Server
 
 const port = 8001;
-const server = app.listen(port, listening);
+const server = app.listen(process.env.PORT || port, listening);
 
 function listening() {
     console.log(`running on localhost: ${port}`);
