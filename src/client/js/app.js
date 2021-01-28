@@ -147,7 +147,7 @@ export const updateUI = async (userData) => {
         document.querySelector("#city").innerHTML = userData.arrCity;
         document.querySelector("#date").innerHTML = dateFormat;
         document.querySelector("#days").innerHTML = countdown;
-        document.querySelector("#summary").innerHTML = userData.summary;
+        document.querySelector("#summary").innerHTML = `, ${userData.summary}`;
         document.querySelector("#temp-high").innerHTML = userData.weatherHigh;
         document.querySelector("#temp-low").innerHTML = userData.weatherLow;
         document.querySelector("#weather-text").innerHTML = countdown < 16 ? "Expect weather to be" : "Typical weather for then";
