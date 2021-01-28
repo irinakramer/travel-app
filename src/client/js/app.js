@@ -41,7 +41,6 @@ export function addTrip(e) {
 
     // function checkInput to validate input 
     Client.checkInput(leavingFromText, goingToText);
-    //Client.checkDate(depDate);
 
 
     getCityInfo(geoNamesURL, goingToText, geoNamesUsername)
@@ -53,7 +52,6 @@ export function addTrip(e) {
         })
         .then((weatherData) => {
             const countdown = countDown(depDate);
-            //console.log("addTrip weatherData.max_temp: ", weatherData.max_temp);
             const userData = postData('http://localhost:8001/add', {
                 leavingFromText, goingToText, depDateText, weatherHigh: weatherData.max_temp, weatherLow: weatherData.min_temp, summary: countdown < 16 ? weatherData.weather.description : null
             });
