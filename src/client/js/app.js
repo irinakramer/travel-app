@@ -61,7 +61,7 @@ export function addTrip(e) {
         })
         .then((weatherData) => {
             const countdown = countDown(depDate);
-            const userData = postData('http://localhost:8001/add', {
+            const userData = postData('http://travel-app-17.herokuapp.com/add', {
                 leavingFromText, goingToText, depDateText, weatherHigh: weatherData.max_temp, weatherLow: weatherData.min_temp, summary: countdown < 16 ? weatherData.weather.description : null
             });
             return userData;
